@@ -1,0 +1,6 @@
+/load /home/derfian/uzi/uzi
+/load /home/derfian/uzi/tiny.world
+
+;; /def -i -msimple -t"You open window 2." AutoLoadWin2 = \
+;; 	/load /home/derfian/uzi/personal/window2.x
+
