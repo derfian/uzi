@@ -140,6 +140,7 @@
 	/alias lb cast 'Lightning Bolt' %%{*}%;\
 	/alias locate cast 'Locate Object' %%{*}%;\
 	/alias mb cast 'Meteor Blast' %%{*}%;\
+	/alias mi cast 'Mirror Image'%;\
 	/alias mirror cast 'Blood Mirror'%;\
 	/alias mpain cast 'Mass Pain'%;\
 	/alias mswarm cast 'Meteor Swarm'%;\

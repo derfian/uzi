@@ -135,6 +135,9 @@
 /def -p2aCmagenta -mglob -t'You once again feel naked.' rebark = \
   /respell bark
 
+/def -F -p2 -aCmagenta -mglob -t"Your kaleidoscopic mirage collapses in on itself as the magics expire." autospell_mirrorimage = \
+        /respell mi
+
 /def -p2aBCred -mglob -t'The ancient looking runes on the ground wither apart.' lostcop = \
   /set coppen=1%;/set cop=0%;\
   /if (magician>0) \
@@ -303,6 +306,8 @@
 /def -p2aBCred -mglob -t'*{You bleed more freely but you feel an inner energy building inside you.|Your field of pain absorbs your magic.}*' gotritual = \
 	/set ritual=1%;/gotspell ritual
 
+/def -p2 -F -mglob -t"You become a blur of kaleidoscopic color and split into mirror images of yourself." gotmirrorimage = \
+        /set mirrorimage=1%;/gotspell mi
 
 
 /def ma= \
@@ -385,6 +390,7 @@
 /def -mglob -t'Sun Shield              {\[*|P*}*' afsun=/set sshield=1
 /def -mglob -t'Giant Size              {\[*|P*}*' afgsize=/set gsize=1
 /def -mglob -t'Armor Of Thorns         {\[*|P*}*' afthorns=/set thorns=1
+/def -mglob -t'Mirror Image            {\[*|P*}*' afmirror=/set mirrorimage=1
 
 /def -aBCred -mglob -t'Impossible!  You can\'t concentrate enough!' castonkill = \
   /set castonkill=1%;\
@@ -433,18 +439,19 @@
   /endif
 
 /def respell = \
-  /debug - spellup=%{spellup}  .    casting=%{casting}%;\
-  /eval -sfull /set %{1}=0%;\
-  /if (fighting=0 & currentmana > 0 & sentassist=0) \
-    /if (spellup!~'spelling') \
-      /spellup%;\
-    /elseif (spellup=~'null') \
-      /set spellup=spelling%;/dospellup %{1}%;\
-    /else \
-      /spellup %spellup%;\
-    /endif%;\
-  /endif%;\
-  /debug - spellup=%{spellup}  .    casting=%{casting}
+        /debug - spellup=%{spellup}  .    casting=%{casting}%;\
+        /eval -sfull /set %{1}=0%;\
+        /if (fighting=0 & currentmana > 0 & sentassist=0) \
+                /if (spellup!~'spelling') \
+                        /spellup%;\
+                /elseif (spellup=~'null') \
+                        /set spellup=spelling%;\
+                        /dospellup %{1}%;\
+                /else \
+                        /spellup %spellup%;\
+                /endif%;\
+        /endif%;\
+        /debug - spellup=%{spellup}  .    casting=%{casting}
 
 /def gotspell = \
   /debug Spellup- spellup=%{spellup}  .    casting=%{casting}%;\
@@ -572,6 +579,9 @@
   /elseif (ffield=0 & magician>0 & affield=1 & bmirror=0 & abmirror=0) \
     cast 'force field'%;\
     /set spellup=ffield%;\
+  /elseif (mirrorimage = 0 & amirrorimage = 1 & magician > 0) \
+    cast 'mirror image'%;\
+    /set spellup=mi%;\
   /elseif (contingency=0 & magician>0) \
     cast 'contingency'%;\
     /set spellup=contingency%;\
@@ -624,6 +634,14 @@
       /set abmirror=0%;\
     /endif
 
+/def mirrorimage = \
+        /if (amirrorimage != 1) \
+                /ecko Mirror image will automatically be casted.%;\
+                /set amirrorimage=1%;\
+        /else \
+                /ecko Won't cast mirror image.%;\
+                /set amirrorimage=0%;\
+        /endif
 
 /def ffield = \
     /if (affield!=1) \
