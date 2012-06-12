@@ -73,7 +73,7 @@ sub addchar {
       system(@args) == 0
        or die "system @args failed: $?";
       open(TINYTEMP, ">> $tiny_world_temp") or die "can't open file $tiny_world_temp: $!";
-      print TINYTEMP "\/test addworld\(\"$addname\"\, \"diku\"\, \"burningmud.org\"\, \"4000\"\, \"$addname\"\, \"$addpass\"\)\n";
+      print TINYTEMP "\/test addworld\(\"$addname\"\, \"diku.uzi\"\, \"burningmud.com\"\, \"4000\"\, \"$addname\"\, \"$addpass\"\)\n";
       print "Character $addname added to $tiny_world\n";
       close(TINYTEMP) or die "can't close file $tiny_world_temp: $!";
       @args = ("mv", "$tiny_world_temp", "$tiny_world");
@@ -114,7 +114,7 @@ sub modchar {
             $found_char = 1;
             print "New password for $modname: ";
             chop($modpass = <>);
-            print TINYTEMP "\/test addworld\(\"$worldname\"\, \"diku\"\, \"burningmud.org\"\, \"4000\"\, \"$worldname\"\, \"$modpass\"\)\n";
+            print TINYTEMP "\/test addworld\(\"$worldname\"\, \"diku\"\, \"burningmud.com\"\, \"4000\"\, \"$worldname\"\, \"$modpass\"\)\n";
 	    print "Password changed.\n";
 	  }
 	  else {
