@@ -1,4 +1,5 @@
-;;;;prompt for default theme
+; -*- mode: tf -*-
+
 /set prt_ntxt=Cwhite
 /set prt_ntxt2=nCyellow
 /set prt_htxt=nCwhite
@@ -11,6 +12,19 @@
 
 /def setstatusfields = \
 	/let status_var_afktells=" tells\:":7:%{prt_ntxt2} "%{tellswhileafk}":$[strlen(%{tellswhileafk})]:%{prt_htxt2} %;\
+        /if (mod_min == 0 & mod_max == 0) \
+                /let prt_dheal="dh=":3:%{prt_ntxt2} "off":3:%{prt_htxt2} :1%;\
+         /else \
+                 /let prt_dheal="dh=":3:%{prt_ntxt2} \
+                 "%{mod_min}":$[strlen({mod_min}+1)]:%{prt_htxt2} \
+                 "/":1:%{prt_ntxt2} \
+                 "%{mod_max}":$[strlen({mod_max}+1)]:%{prt_htxt2} \
+                 "/":1:%{prt_ntxt2} \
+                 "%{mod_thr}":$[strlen({mod_thr}+1)]:%{prt_htxt2} \
+                 ":":1:%{prt_ntxt2} \
+                 "$[dynamic_mod()]":3:%{prt_htxt2} \
+                 :1%;\
+        /endif%;\
 	/set status_fields=\
 	:1 \
 	currenthp:-%{mhpval}:%{hpcolor} \
@@ -50,6 +64,7 @@
 	"/":1:%{prt_ntxt2} \
 	"%{maxgpowcount}":$[strlen({maxgpowcount}+1)]:%{prt_htxt2} \
 	:1 \
+        %{prt_dheal} \
 	"\[":1:%{prt_ntxt2} \
 	@clock:5:%{prt_htxt2} \
 	"\]":1:%{prt_ntxt2} \
