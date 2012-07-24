@@ -1,3 +1,4 @@
+; -*- mode: tf -*-
 ;=============================
 ;   Basic Autoheal Script
 ;=============================
@@ -51,10 +52,15 @@
       /endif%;\
     /endif
 
-/def th=/set thresh %{1}%;/ecko Thresh: %{htxt2}%{1}
+; Mana threshold - start saving mana if below this
+/def th = \
+        /set thresh %{1}%;\
+        /ecko Thresh: %{htxt2}%{1}
 
-/def hstate=\
-	/if (miratank=1) /set atmhp%; /endif%; \
+/def hstate = \
+	/if (miratank=1) \
+                /set atmhp%;\
+        /endif%;\
 	/set thresh
 
 /def mhp = \
@@ -209,7 +215,7 @@
                 /echo -aCred You will regen anyone in group.%; \
         /else \
                 /set aregen=0%; \
-                /echo -aCred You will let them regen thierselfs.%; \
+                /echo -aCred You will let them regen theirselves.%; \
         /endif
 
 /def -mregexp -t'[^ ] suddenly shivers slightly.' regend = \
@@ -300,7 +306,7 @@
 		/set remit=0%;/set askperson=%{1}%; \
 		/autorem %{askperson} %;\
 		/if (remit=1) rc %{askperson}%;/set lspell= rc %{askperson}%;/endif%;\
-/endif
+        /endif
 
 /set awithered=3
 
@@ -313,7 +319,7 @@
                 /set remit=0%;/set askperson=%{1}%;\
                 /autorem %{askperson}%;\
                 /if (remit=1) pow %{askperson}%;/set lspell= pow %{askperson}%;/endif%;\
-/endif
+        /endif
 
 /def -mglob -aBCred -t'You are blind!' cureblindself = \
 	/if (priest > 0 & !fighting) \
@@ -326,13 +332,13 @@
 ;*********************** Utilities *********************;
 
 /def -p999 -F -mglob -aCmagenta -t'You join the fight!*' joinedfdf = \
-		/if (tickison=0) /set tickison=1%; gg%; /endif
+	/if (tickison=0) /set tickison=1%; gg%; /endif
 
 /def -F -p999 -mregexp -t'assists|rushes to attack|is here, fighting|heroically rescues' assasdf4 = \
         /if (tickison=0) /set tickison=1%; gg%; /endif
 
 /def -F -p999 -mregexp -t'No way\! You are fighting for your life' ass1asdf = \
-    /if (tickison=0) /set tickison=1%; gg%; /endif
+        /if (tickison=0) /set tickison=1%; gg%; /endif
 
 
 /def -p99 -F -q -mregexp -t'([^ ]*) (misses|hits|pounds|crushes|tickles|pierces|cuts|blasts|slashes\
@@ -351,9 +357,9 @@
 /def -mregexp -t'([A-z]+)tells you \'status\'' tellonstatus=/status %{P1}
 
 /def -mregexp -t'tells you \'vis\'' leadervis = \
-  /if ({1}=~leader) \
-    visible%;\
-  /endif
+        /if ({1}=~leader) \
+                visible%;\
+        /endif
 
 ;*********************** Dynamic Heals *********************;
 /set mod_min=0
@@ -461,7 +467,7 @@
 		/done%;\
 		/let _heals=%{_matched}%;\
 		/if (_person =~ tank) \
-			/while (regmatch("(^| )c=([a-z]+|off)( |$)",_heals)) \
+			/while (regmatch("(^| )c=([A-z]+|off)( |$)",_heals)) \
 				/let _value=%{P2}%;\
 				/let _heals=%{PR}%;\
 				/if (_value =~ 'off') \
