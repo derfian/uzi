@@ -1,6 +1,8 @@
-;;;;;;;;;;;;;;;;;
-;SpellSwitcher  ;
-;;;;;;;;;;;;;;;;;
+; -*- mode: tf -*-
+
+;;;;;;;;;;;;;;;;;;;
+;  SpellSwitcher  ;
+;;;;;;;;;;;;;;;;;;;
 
 /def careadam = \
   /set _newareadam=%;\
