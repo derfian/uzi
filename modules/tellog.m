@@ -1,8 +1,12 @@
+; -*- mode: tf -*-
 ;===============================
 ; T e l l o g
 ;===============================
 
-/if (beepontell=~'') /set beepontell=1%;/endif
+/if (beepontell=~'') \
+        /set beepontell=1%;\
+/endif
+
 /if (tellogger=~'') /set tellogger=1%;/endif
 /if (icquin=~'') /set icquin=Unknown%;/endif
 /if (pageicq=~'') /set pageicq=0%;/endif
@@ -13,8 +17,9 @@
 
 /alias afk /if (isafk=0) /set isafk=1%;/ecko You are set afk: %*%;/set afkmsg=%*%;/else /set isafk=0%;/ecko You are now AK. Great! :)%;/endif
 
-;Gagger for Whois
-/def -p2147483646 -mglob -t'Whois tells you*' clientgagWhois
+; Gaggers
+/def -p2147483646 -mglob -t"Whois tells you*" clientgagWhois
+/def -p2147483646 -mglob -t"Charon tells you 'Welcome aboard,*" clientgagCharon
 
 ;===============================
 ; F u n c t i o n s
@@ -127,7 +132,7 @@
 		/repeat -0:00:02 1 /beep%;\
 		/set allowbeep=0%;\
 		/repeat -0:01:10 1 /set allowbeep=1%;\
-		tell %{1} Beep emitted, hopefully I'm not too far away and will be back to u shortly.%;\
+                tf %{1} beep %{1}%;\
 		/if (pageicq=1) \
 			/quote -S /echo !echo %{1} just beeped you. | mail -s BurningMUD %{icquin}@pager.mirabilis.com%;\
 		/endif%;\
