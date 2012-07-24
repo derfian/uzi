@@ -1,3 +1,4 @@
+; -*- mode: tf -*-
 ;;;;;;;Autochange script.
 
 /if ({cweap}=~'') /set cweap=1%;/endif
@@ -20,14 +21,16 @@
     /weapon horgar%;\
   /else \
     /weapon fire%;\
-  /endif
+  /endif%;\
+  /d fire
 
 /def -mregexp -p9999 -F -t'^You tell the group, \'(H|h)(ORGAR|orgar)\'' cweaphorgar2 = \
   /if ({horgarslay} !~ '') \
     /weapon horgar%;\
   /else \
     /weapon fire%;\
-  /endif
+  /endif%;\
+  /d fire
 
 
 /def -mregexp -p9999 -F -t'([A-z]+) tells the group, \'(USE|use) ([A-Za-z/\ ]*)\'' leadercweap = \
