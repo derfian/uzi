@@ -1,3 +1,4 @@
+; -*- mode: tf -*-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;===================================
@@ -235,6 +236,12 @@
 ;;Immunity/Restistant;;
 ;;;;;;;;;;;;;;;;;;;;;;;
 
+/def -msimple -t'You need more target practice!' ice_immune = \
+    /if ((autofight=1)&({damage}=/'ib')) \
+        /d fire%;\
+    /endif%;\
+    /repeatdamage
+
 /def -mregexp -t'ducks your bolt effectively.' fire_immune = \
     /if ((autofight=1)&({damage}=/'fb')) \
 		/d normal%;\
@@ -252,6 +259,9 @@
 ;;;;;;;;;;;;;;;;
 /def resdam = \
     /set attackspell=0
+
+; Adrenal focus
+; -------------
 
 /def foc = \
     /if (nightblade > 0) \
@@ -299,6 +309,7 @@
 ;/def -mregexp -t'{Who should the spell be cast upon?|The wimp isn\'t here!|Backstab who?}' resettoass = \
 ;    /set groupass=1%;/if (spellup=~'null' | autofocus=1) /set didfoc=0%;/endif
 
+
 /def -aBCblue -mglob -t'*{Your thoughts and body become as one\!|You continue your concentration.}*' gotfocus= \
 	/set focus=1%;/gotspell focus
 
@@ -308,20 +319,19 @@
 /def -mregexp -t'gets a deadly look' focus3= \
 	/adr
 
+; 
+
 /def -mglob -t'You quickly focus your energy on a blow.' reattack = \
 	/repeatdamage
 
 /def -mregexp -t'Let\'s do nothing, nothing at all!' netherb= \
 	/repeatdamage
 
-/def -mglob -t'Fry em!' tofb = \
+/def -p2 -mglob -F -aBCred -t'Fry em!' tofb = \
 	/repeatdamage
 
-/def -mglob -t'Ice em!' toib = \
+/def -p2 -mglob -F -aBCcyan -t'Ice em!' toib = \
 	/repeatdamage        
-
-/def -p2 -mglob -aBCcyan -t'You chill *!' cht = \
-	/repeatdamage
 
 /def -p2 -mglob -aBCred -t'Your bolt hits * hard, and leaves a burn mark big as a fist.' fireb= \
 	/repeatdamage
@@ -410,6 +420,15 @@
 /def -mglob -t'Your bash at * sends * sprawling!' bash2 = \
 	/set fighting=1%;\
 	/repeatdamage
+
+/def -p2 -mglob -aBCcyan -F -t"You chill *!" autofight_chilltouch = \
+	/repeatdamage
+
+/def -p2 -mglob -aBCcyan -F -t"The atmosphere turns chilly as you miss *!" autofight_chilltouch_2 = \
+    /repeatdamage
+
+/def -p2 -msimple -aBCcyan -F -t"Your fingers crackle as you concentrate on charging the air." autofight_shockinggrasp = \
+    /repeatdamage
 
 ;;;;;;;;;;;;;;;
 ;AREA SECTIONS;
