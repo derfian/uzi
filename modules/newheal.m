@@ -1,3 +1,4 @@
+; -*- mode: tf -*-
 ;****NEWHEAL.M*******************************************************************
 ;										*
 ; This updated module will heal pets and gives warning if they are not named	*
