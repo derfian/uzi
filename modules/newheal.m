@@ -1,4 +1,5 @@
 ; -*- mode: tf -*-
+;
 ;****NEWHEAL.M*******************************************************************
 ;										*
 ; This updated module will heal pets and gives warning if they are not named	*
@@ -18,7 +19,7 @@
                 /set gpsize=%{P1}%;\
         /endif%;\
 ;; MIRA
-        /if (aheal=1 & {P8} !~ 'NotHere' & {P8} & (priest>1 | templar>1)) \
+        /if (aheal=1 & {P8} !~ 'NotHere' & {P8} & (priest>0 | templar>1 | animist>1)) \
                 /if ({P2}=~tank) \
                         /if ({P7}<=atmhp & miratank=1) \
                                 cast 'miracle' %{P4}%;\
