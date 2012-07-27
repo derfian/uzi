@@ -90,14 +90,13 @@
 
 /def -p3 -mglob -t'*tells you \'corpse\'*'  = di%;cr
 
-/def -p1 -mglob -t"{*} tells the group, 'ps'" ps1= ps
+/def -p1 -mglob -t"{*} tells the group, 'ps'" ps1 = ps
 /def -p1 -mglob -t"{*} tells the group, 'wake'" com1=/if ({1}=/{leader} | {1}=~'someone') wake%;/endif
 /def -p1 -mglob -t"{*} tells the group, 'stand'" com2=/if ({1}=/{leader} | {1}=~'someone') wake%;stand%;/endif
 /def -p1 -mglob -t"{*} tells the group, 'sleep'" com3=/if ({1}=/{leader}) sleep%;/endif
 /def -p1 -mglob -t"{*} tells the group, 'rest'" com4=/if ({1}=/{leader}) rest%;/endif
 /def -p1 -mglob -t"{*} tells the group, 'sit'" com5=/if ({1}=/{leader}) sit%;/endif
 
-/def -p1 -F -mglob -t"You sit down and rest your tired bones." restspell1 = aff%;/set position=rest
 /def -p1 -F -mglob -t"You go to sleep." sleepspell1 = aff%;/set position=sleep
 
 /def -p1 -F -mglob -t'You stop resting, and stand up.' restspell2=\
@@ -109,7 +108,7 @@
 	        /set standtocast=0%;\
 	/endif
 
-/def -p1 -F -mglob -t'You wake, and stand up.' restspell7=\
+/def -p1 -F -aB -msimple -t'You wake, and stand up.' position_stand_1=\
 	/if (standtocast != 1) \
 	        /aftertick%;\
 	        /set position=stand%;\
@@ -118,23 +117,36 @@
 	        /set standtocast=0%;\
 	/endif
 
-/def -p1 -F -mglob -t'You sit down.' restspell3=aff%;/set position=sit
-/def -p1 -F -mglob -t'You rest your tired bones.' restspell4=/set position=rest
-/def -p1 -F -mglob -t'You stop resting, and sit up.' restspell5=/set position=sit
-/def -p1 -F -mglob -t'You stand up.' restspell6=/set position=stand%;/onstand
-/def -p1 -F -mglob -t'You are already awake...' restspell8=/set position=stand
+/def -p1 -F -aB -msimple -t"You stand up." position_stand_2 = \
+        /set position=stand%;\
+        /onstand
 
-/def -F -mregexp -t"^([A-z]+) tells .* 'build ([A-z]+)'" buildoutpost = \
-        /if ((%{P1} =~ %leader) & fighter>0) \
-                build %P2%;\
-        /endif
+/def -p1 -F -aB -msimple -t"You are already awake..." position_stand_3 = \
+        /set position=stand
 
+/def -p1 -F -aB -msimple -t"You sit down." position_sit_1 = \
+        /set position=sit%;\
+        aff
+
+/def -p1 -F -aB -msimple -t"You stop resting, and sit up." position_sit_2 = \
+        /set position=sit
+
+/def -p1 -F -aB -msimple -t"You rest your tired bones." position_rest_1 = \
+        /set position=rest%;\
+        aff
+
+/def -p1 -F -mglob -t"You sit down and rest your tired bones." restspell1 = \
+        /set position=rest%;\
+        aff
 ;; DD cop
+
+/set ddcoping=0
+
 /def -F -mregexp -t"^([A-z]+) tells .* 'dd cop ([A-z]+)'" ddcop = \
         /if ((%{P1} =~ %leader) & magician>0) \
                 /set ddcoping=1%;\
                 cast 'dimension door' %{P2}%;\
-        /endi/i
+        /endif
 
 /def -aBCmagenta -mregexp -t'You wait in vain as no dimension door appears.' ddvain = \
         /if (%{ddcoping}=1) \
@@ -144,55 +156,58 @@
 
 
 /def -F -mregexp -t'You open a door into another dimension and quickly step through it.' dddone = \
-        /if (%{ddcoping}=1) \
+        /if (ddcoping) \
                 cast 'circle of protection'%;\
         /endif
 
 
 /def -F -p12345 -mregexp -t'The ground gets covered with ancient runes of protection.' ddcop_done = \
-        /if (%{ddcoping}=1) \
+        /if (ddcoping) \
                 gtf , has marked the spot with some runes.%;\
                 /set ddcoping=0%;\
         /endif
 
 /def -aBCmagenta -mregexp -t'You fail to inscribe new runes of protection.' ddcop_fail = \
-        /if (%{ddcoping}=1) \
+        /if (ddcoping) \
                 gtf , has FAILED to mark the spot.%;\
                 /set ddcoping=0%;\
         /endif
 
 /def -F -p123456 -mregexp -t'You cant seem to do that here\!' ddcop_nomag = \
-        /if (%{ddcoping}=1) \
-                gt Can't create dimension door. I'm possibly in NOMAG.%;\
+        /if (ddcoping) \
+                gt Can't create dimension door. This room is no-magic!%;\
                 /set ddcoping=0%;\
         /endif
 
 /def -aBCmagenta -mregexp -t"([A-z]+)\'s godly aura resists your dimension door." ddcop_gods = \
-        /if (%{ddcoping}=1) \
+        /if (ddcoping) \
                 gt You can't dimension door to the immortals!%;\
                 /set ddcoping=0%;\
         /endif
 
 ;; Holy gate
 
-/def -aBCmagenta -mregexp -t'([^ ]*) tells you \'gate ([^ ]*)\'' priestgate= \
+/set castedholygate=0
+/set gatedto=Noone
+
+/def -aBCmagenta -E$[priest>1] -mregexp  -t'^([^ ]*) tells you \'gate ([^ ]*)\'' priestgate= \
         /if ((%{leader}=/%{P1})|(%{tank}=/%{P1})) \
                 /set castedholygate=1%;\
                 /set gatedto=%{P2}%;\
                 cast 'holy gate' %{P2}%;\
         /endif
 
-/def -aBCmagenta -Ecastedholygate -mregexp -t'You wait in vain as no dimension portal appears.' holygatevain = \
+/def -aBCmagenta -E$[castedholygate & priest>1] -mregexp -t'You wait in vain as no dimension portal appears.' holygatevain = \
         gt Can't establish gate to %{gatedto}.%;\
         /set castedholygate=0%;\
         /unset gatedto
 
-/def -aBCmagenta -E castedholygate -mregexp -t'You create a red field of energy.' holygatedone = \
+/def -aBCmagenta -E$[castedholygate & priest>1] -mregexp -t'You create a red field of energy.' holygatedone = \
 	gtf , has created a nice field to %{gatedto}.%;\
 	/set castedholygate=0%;\
         /unset gatedto
 
-/def -aBCmagenta -Ecastedholygate -mregexp -t'You can\'t concentrate enough to create a new portal\.' holygatecant = \
+/def -aBCmagenta -E$[castedholygate & priest>1] -mregexp -t'You can\'t concentrate enough to create a new portal\.' holygatecant = \
         gtf , can't create any more fields at this moment.%;\
         /set castedholygate=0%;\
         /unset gatedto
@@ -202,6 +217,12 @@
 /def -p1 -F -mregexp -t"^([A-z]+) tells .* '(D|d)(RINK WELL|rink well)'" drinkwell = \
         /if (%{P1} =~ %leader) \
                 drink well%;\
+; autoheal blindness
+                /if (priest>0) \
+                        cast 'cure blind'%;\
+                /elseif (templar>0 | animist>0) \
+                        cast 'heal'%;\
+                /endif%;\
         /endif
 
 /def -p1 -F -mregexp -t"^([A-z]+) tells .* '(E|e)(NTER TREE|nter tree)'" entertree = \
@@ -211,31 +232,42 @@
 
 ;; Outposts
 
-/def -p1 -F -mregexp -t'^([A-Za-z]+) tells the group, \'([A-Za-z]+) (leave|enter) (tipi|wooden|wood|stone|outpost)\'' enteroutpost = \
+/def -F -E$[fighter>0] -mregexp -t"^([A-z]+) tells .* 'build ([A-z]+)'" buildoutpost = \
+        /if (%{P1} =~ %leader) \
+                build %P2%;\
+        /endif
+
+; FIXME: autoreply when there's not enough resources or when you fail?
+
+/def -p1 -F -mregexp -t"^([A-Za-z]+) tells the group, '([A-Za-z]+) (leave|enter) (tipi|wooden|wood|stone|outpost)'" enteroutpost = \
         /enterx %P1 %P2 %P3 %P4
 
-/def -p1 -F -mregexp -t'^([A-Za-z]+) tells the group, \'(enter|leave) (tipi|wooden|wood|stone|outpost) ([A-Za-z]+)\'' enteroutpost2 = \
+/def -p1 -F -mregexp -t"^([A-Za-z]+) tells the group, '(enter|leave) (tipi|wooden|wood|stone|outpost) ([A-Za-z]+)'" enteroutpost2 = \
         /if (inoutpost=1) \
                 /enterx %P1 %P4 %P2 %P3%;\
         /endif
 
-;/def -p1 -F -mregexp -t'^([A-Za-z]+) tells the group, \'enter (tipi|wooden|wood|stone|outpost)\'' enteroutpost3 = \
+;/def -p1 -F -mregexp -t"^([A-Za-z]+) tells the group, 'enter (tipi|wooden|wood|stone|outpost)'" enteroutpost3 = \
 ;  /if (inoutpost=0 & (((magician|priest)>0)|((templar|warlock|animist)>1)) \
 ;    /enterx %P1 %char enter %P2%;\
 ;  /endif
 
-/def -p1 -F -mregexp -t'^([A-Za-z]+) tells the group, \'enter (tipi|wooden|wood|stone|outpost)\'' enteroutpost3 = \
+/def -p1 -F -mregexp -t"^([A-Za-z]+) tells the group, 'enter (tipi|wooden|wood|stone|outpost)'" enteroutpost3 = \
         /if (inoutpost=0 & (($[fighter+rogue])<2) & (($[currentmana/maxmana])<0.80)) \
                 /enterx %P1 %char enter %P2%;\
         /endif
 
-/def -p1 -F -mregexp -t'^([A-Za-z]+) tells the group, \'leave (tipi|wooden|wood|stone|outpost)\'' leaveoutpost = \
+/def -p1 -F -mregexp -t"^([A-Za-z]+) tells the group, 'leave (tipi|wooden|wood|stone|outpost)'" leaveoutpost = \
         /if (inoutpost=1) \
                 /enterx %P1 %char leave %P2%;\
         /endif
 
-/def -p1 -F -mregexp -t'^You enter a (tipi|wooden|stone) outpost.' enteroutpost4 = /set inoutpost=1%;sleep
-/def -p1 -F -mregexp -t'^(You leave the outpost.|You rush out of the outpost just in time.)' leaveoutpost2 = /set inoutpost=0
+/def -p1 -F -mregexp -t"^You enter a (tipi|wooden|stone) outpost." enteroutpost4 = \
+        /set inoutpost=1%;\
+        sleep
+
+/def -p1 -F -mregexp -t"^(You leave the outpost.|You rush out of the outpost just in time.)" leaveoutpost2 = \
+        /set inoutpost=0
 
 /def enterx = \
         /if ({3} =/ 'leave' | {3} =/ 'enter') \
