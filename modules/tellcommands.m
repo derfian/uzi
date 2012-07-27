@@ -1,3 +1,4 @@
+; -*- mode: tf -*-
 ;;;;;;Tell stuff
 
 /def -mglob -p3 -F -t'{*} tells you \'summon\'' tellsummon = \
