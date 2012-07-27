@@ -5,6 +5,10 @@
 ; This updated module will heal pets and gives warning if they are not named	*
 ;										*
 ;********************************************************************************
+;
+;
+; This file is obsolete, the triggers has been integrated into groupset.m
+
 
 /def -p2 -F -mregexp -t'^([0-9][0-9])\. \[[0-9][0-9] (..|  | Mob)(\/..|   | )\] ([A-Za-z]+|[A-Za-z]+\'s (Vampire|Spectre|Ghast|Wolf|Phoenix|Earth Elemental|Air Elemental|Water Elemental)|Ceng, the friend of Eowaran|A giant sea turtle|A Seagull|.* named \'([A-Za-z]+)\')[ ]*\[(...)\%H ...\%M ...\%V\] (.*)(|\(LD\))' gpr2 = \
         /set sentgroup=0%;\
