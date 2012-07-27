@@ -129,12 +129,12 @@
                 build %P2%;\
         /endif
 
-;;; dd cop ;;;
+;; DD cop
 /def -F -mregexp -t"^([A-z]+) tells .* 'dd cop ([A-z]+)'" ddcop = \
         /if ((%{P1} =~ %leader) & magician>0) \
                 /set ddcoping=1%;\
                 cast 'dimension door' %{P2}%;\
-        /endif
+        /endi/i
 
 /def -aBCmagenta -mregexp -t'You wait in vain as no dimension door appears.' ddvain = \
         /if (%{ddcoping}=1) \
@@ -169,33 +169,35 @@
 
 /def -aBCmagenta -mregexp -t"([A-z]+)\'s godly aura resists your dimension door." ddcop_gods = \
         /if (%{ddcoping}=1) \
-                /eval gt You can\'t dimension door to the immortals!%;\
+                gt You can't dimension door to the immortals!%;\
                 /set ddcoping=0%;\
         /endif
 
+;; Holy gate
 
-;;; Holy gater ;;;
 /def -aBCmagenta -mregexp -t'([^ ]*) tells you \'gate ([^ ]*)\'' priestgate= \
         /if ((%{leader}=/%{P1})|(%{tank}=/%{P1})) \
                 /set castedholygate=1%;\
+                /set gatedto=%{P2}%;\
                 cast 'holy gate' %{P2}%;\
         /endif
 
-/def -aBCmagenta -mregexp -t'You wait in vain as no dimension portal appears.' holygatevain = \
-        /if (%{castedholygate}=1) \
-                gt Can't establish gate.%;\
-                /set castedholygate=0%;\
-        /endif
+/def -aBCmagenta -Ecastedholygate -mregexp -t'You wait in vain as no dimension portal appears.' holygatevain = \
+        gt Can't establish gate to %{gatedto}.%;\
+        /set castedholygate=0%;\
+        /unset gatedto
 
-/def -aBCmagenta -mregexp -t'You create a red field of energy.' holygatedone = \
+/def -aBCmagenta -E castedholygate -mregexp -t'You create a red field of energy.' holygatedone = \
+	gtf , has created a nice field to %{gatedto}.%;\
 	/set castedholygate=0%;\
-	gtf , has created a nice field.
+        /unset gatedto
 
-/def -aBCmagenta -mregexp -t'You can\'t concentrate enough to create a new portal\.' holygatecant = \
-        /if (%{castedholygate}=1) \
-                gtf , can't create any more fields at this moment.%;\
-                /set castedholygate=0%;\
-        /endif
+/def -aBCmagenta -Ecastedholygate -mregexp -t'You can\'t concentrate enough to create a new portal\.' holygatecant = \
+        gtf , can't create any more fields at this moment.%;\
+        /set castedholygate=0%;\
+        /unset gatedto
+
+;; Useful stuff..
 
 /def -p1 -F -mregexp -t"^([A-z]+) tells .* '(D|d)(RINK WELL|rink well)'" drinkwell = \
         /if (%{P1} =~ %leader) \
@@ -207,8 +209,8 @@
                 enter tree%;\
         /endif
 
+;; Outposts
 
-;;;Outpost;;;
 /def -p1 -F -mregexp -t'^([A-Za-z]+) tells the group, \'([A-Za-z]+) (leave|enter) (tipi|wooden|wood|stone|outpost)\'' enteroutpost = \
         /enterx %P1 %P2 %P3 %P4
 
@@ -257,7 +259,7 @@
         /set count=0%;\
         /set gplist=
 
-/def -p1 -F -mregexp -t'^([0-9][0-9])\. \[([^\.]*)\] ([A-Za-z]*)[ ]+\[(...)\%H ...\%M ...\%V\] (.*)(|\(LD\))' gpr2 = \
+/def -p1 -F -mregexp -t'^([0-9][0-9])\. \[[0-9][0-9] (..|  | Mob)(\/..|   | )\] ([A-Za-z]+|[A-Za-z]+\'s (Vampire|Spectre|Ghast|Wolf|Phoenix|Earth Elemental|Air Elemental|Water Elemental)|Ceng, the friend of Eowaran|A giant sea turtle|A Seagull|.* named \'([A-Za-z]+)\')[ ]*\[(...)\%H ...\%M ...\%V\] (.*)(|\(LD\))' gpr2 = \
         /set sentgroup=0%;\
         /if (_aheal_mod=~'') \
                 /set _aheal_mod=$[dynamic_mod()]%;\
@@ -265,39 +267,89 @@
                         /ecko New dHEAL modifier: %{_aheal_mod}%;\
                 /endif%;\
         /endif%;\
-        /if ({P3}!/'someone') \
-                /set gplist=%{gplist} %{P3}%;\
+        /if ({P4}!/'someone' & {P2}!/' Mob') \
+                /set gplist=%{gplist} %{P4}%;\
                 /set gpsize=%{P1}%;\
         /endif%;\
-        /if (aheal=1 & {P5} !~ 'NotHere' & {P5} & (priest>1 | templar>1)) \
-                /if ({P3}=~tank) \
-                        /if ({P4}<=atmhp & miratank=1) \
-				cast 'miracle' 0.%{P3}%;\
-				/set dohealtank=1%;\
-                        /elseif ({P4}<= $[atthp + _aheal_mod] & currentmana>thresh & truetank=1) \
-				/if (priest > 1) \
-					cast 'trueheal' 0.%{P3}%;\
-				/elseif (animist > 1) \
-					cast 'burst of life' 0.%{P3}%;\
-				/endif%;\
-				/if (_dheal_debug==1) \
-					/ecko Healed with thp at $[atghp + _aheal_mod]%;\
-				/endif%;\
-				/set dohealtank=1%;\
-			/endif%;\
-		/elseif (currentmana>thresh & dohealtank=0) \
-			/if ({P4} < lowesthps) \
-				/set toheal=%{P3}%;\
-				/set lowesthps=%{P4}%;\
-				/set toheal_charstr=%{P2}%;\
-			/endif%;\
-			/if ({P4} <= atgphp) \
-				/set gpowcount=$[gpowcount + 1]%;\
-			/endif%;\
-		/endif%;\
-	/endif
+;; Tankheal
+        /if (aheal=1 & {P8} !~ 'NotHere' & {P8} & (priest>0 | templar>1 | animist>1)) \
+                /if ({P2}=~tank) \
+                        /if ({P7}<=atmhp & miratank=1) \
+                                cast 'miracle' %{P4}%;\
+                                /set dohealtank=1%;\
+                        /elseif ({P7}<= $[atthp + _aheal_mod] & currentmana>thresh & truetank=1) \
+                                /if (priest>1) \
+                                        true %{P4}%;\
+                                /elseif (animist>1) \
+                                        burst %{P4}%;\
+                                /elseif (priest == 1) \
+                                        pow %{P4}%;\
+                                /endif%;\
+                                /if (_dheal_debug==1) \
+		                        /ecko Healed with thp at $[atghp + _aheal_mod]%;\
+	                        /endif%;\
+                                /set dohealtank=1%;\
+                        /endif%;\
+;; Groupheal
+                /elseif (currentmana>thresh & dohealtank=0) \
+                        /if ({P7} < lowesthps) \
+                                /if ({P2}=/' Mob') \
+		                        /if ({P6}!/'') \
+                                                /set toheal=%{P6}%;\
+		                        /elseif ({P4}=/'A Seagull') \
+                                                /set toheal=seagull%;\
+		                        /elseif ({P4}=/'A giant sea turtle') \
+                                                /set toheal=turtle%;\
+		                        /elseif ({P4}=/'Ceng, the friend of Eowaran') \
+                                                /set toheal=ceng%;\
+		                        /else \
+                                                /set toheal=%{P5}%;\
+		                        /endif%;\
+	                        /else \
+                                        /set toheal=0.%{P4}%;\
+	                        /endif%;\
+                                /set lowesthps=%{P7}%;\
+                        /endif%;\
+                        /if ({P7} <= atgphp) \
+                                /set gpowcount=$[gpowcount + 1]%;\
+                        /endif%;\
+                /endif%;\
+        /endif
+
 
 /def -F -mglob -aCred -t'*Present:*' reglist = \
+	/debug aheal::gpowcount=%{gpowcount}%;\
+	/debug aheal::lowesthp=%{lowesthps} (%{toheal})%;\
+        /set gplist=$(/unique %{gplist})%;\
+        /set dohealtank=0%;\
+        /set sentgroup=0%;\
+        /if (aheal=1) \
+                /if (gpowcount>=maxgpowcount & gpowgroup=1 & currentmana>thresh & priest>1) \
+                        cast 'grouppowerheal'%;\
+                /elseif (lowesthps <= $[atghp + _aheal_mod] & truegroup=1 & currentmana>thresh) \
+                        /if (({toheal}=/'Wolf') | ({toheal}=/'Vampire') |({toheal}=/'Spectre') |({toheal}=/'Ghast')) \
+                                gtf , is healing an unnamed %{toheal} - please name to ensure the wrong %{toheal} is not healed by mistake%;\
+                        /endif%;\
+                        /if (priest>1) \
+                                cast 'trueheal' %{toheal}%;\
+                        /elseif (priest>0) \
+                                cast 'powerheal' %{toheal}%;\
+                        /elseif (animist>1) \
+                                cast 'burst of life' %{toheal}%;\
+                        /else \
+                                /ecko I don't know what spell to use for healing!!%;\
+                        /endif%;\
+                        /if (_dheal_debug==1) \
+	                        /ecko Healed with ghp at $[atghp + _aheal_mod]%;\
+ 	                /endif%;\
+                /endif%;\
+                /set lowesthps=100%;\
+                /set gpowcount=0%;\
+                /unset _aheal_mod%;\
+                /repeat -1 1 /set tickison=0%;\
+        /endif
+
+/def -c0 -F -mglob -aCred -t'*Present:*' reglist_old = \
 	/debug aheal::gpowcount=%{gpowcount}%;\
 	/debug aheal::lowesthp=%{lowesthps} (%{toheal})%;\
 	/set gplist=$(/unique %{gplist})%;\
