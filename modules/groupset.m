@@ -84,9 +84,9 @@
 
 /def summonqueue = \
         /alias summononstand cast 'summon' 0.%%*%;\
-                /mapcar summononstand %summonqueue%;\
-                /unalias summononstand%;\
-                /set summonqueue=
+        /mapcar summononstand %summonqueue%;\
+        /unalias summononstand%;\
+        /set summonqueue=
 
 /def -p3 -mglob -t'*tells you \'corpse\'*'  = di%;cr
 
