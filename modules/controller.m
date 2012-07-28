@@ -267,7 +267,7 @@
 
 
 
-/set uziversion=1.41+
+/set uziversion=1.5beta
 /set subversion=1
 /def uziver = \
   /return %uziversion
