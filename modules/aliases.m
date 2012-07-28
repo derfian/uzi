@@ -1,3 +1,5 @@
+; -*- mode: tf -*-
+
 /def -ag -p2147483647 -hREDEF gagredef
 ;;Common Aliases
 /alias b /butch %{*}
