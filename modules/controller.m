@@ -23,7 +23,7 @@
 		/send finger self%;\
 	/endif
 
-/def -p2147483647 -mregexp -t'\[[0-9]+\/[0-9]+[ ]+([^\/]+)\/([A-z]+)\]' GettingCharInfo02 = \
+/def -p2147483647 -mregexp -t'\[[ ]*[0-9]+\/[0-9]+[ ]+([^\/]+)\/([A-z]+)\]' GettingCharInfo02 = \
 	/let charclassI=%{P2}%;\
 	/let charclassII=%{P1}%;\
 	/if (regmatch({char}, {*})) \
