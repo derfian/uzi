@@ -1,3 +1,4 @@
+; -*- mode: tf -*-
 ;;;;;;;;;;;;;;;;;;;Key bindings for vt100
 ;/set TERM=vt100
 
