@@ -1,3 +1,4 @@
+; -*- mode: tf -*-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;                              .__ 
 ;               ____ .__ ______|__|             
@@ -27,7 +28,7 @@
 /set maildelay=1
 /set emulation=ansi_attr
 
-/test addworld("uzi", "diku", "burningmud.org", "4000", "", "")
+/test addworld("uzi", "diku", "burningmud.com", "4000", "", "")
 
 ;================================
 ;   No need to edit below this
@@ -41,14 +42,13 @@
 /def c=/connect %*
 /lp on
 /set oldslash=off
-/def burn=/connect burningmud.org 4000
+/def burn=/connect burningmud.com 4000
 /require finger.tf
 /require alias.tf
 /require lisp.tf
 /require tools.tf
 /lood modules/colors.m
 /lood modules/controller.m
-
 ;/lcd %{uzidirectory}
 ;;/def f=/fg ->%*
 
