@@ -1,4 +1,5 @@
-/if (savesetup=1) \
+; -*- mode: tf -*-
+/if (savesetup=1)                                                      \
   /eval /quote -S /set file_exists=!if [ -r %{uzidirectory}/saves/global.sav ]; then echo 1;else echo 0;fi%;\
   /if ({file_exists} = 1) \
     /eval /sys rm %{uzidirectory}/saves/global.sav%;\
