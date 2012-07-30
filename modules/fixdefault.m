@@ -1,3 +1,4 @@
+; -*- mode: tf -*-
 ;;;;;;;
 
 /def fixinghidamage = \
