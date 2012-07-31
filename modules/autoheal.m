@@ -8,53 +8,60 @@
 
 ;;;Group Thingie
 /def gg = \
-    /if (sentgroup=0 & aheal=1) \
-      /debug GROUP tickison=%tickison groupass=%groupass%;\
-      group %{groupinterval}%;\
-      /set sentgroup=1%;\
-    /endif
+        /if (sentgroup=0 & aheal=1) \
+                /debug GROUP tickison=%tickison groupass=%groupass%;\
+                group %{groupinterval}%;\
+                /set sentgroup=1%;\
+        /endif
 
 ;;;Main Script
 /def status = \
-    /if (priest>1 | templar>1) \
-      /if (aheal=1) \
-        /unset st1%;\
-        /if (healcontrol !~ '') \
-          /set st1=HealC: %{healcontrol}, %;\
-        /endif%;\
-	/if (miratank=1) \
-          /set st1=%{st1}mhp: %{atmhp}\% %;\
-        /else \
-          /set st1=mhp: off %;\
-        /endif%;\
-	/if (truetank=1 & priest>1) \
-	  /set st1=%{st1} thp: %{atthp}\% %;\
-        /elseif (priest>1) \
-          /set st1=%{st1} thp: off %;\
-        /endif%;\
-        /if (truegroup=1 & priest>1) \
-	  /set st1=%{st1} ghp: %{atghp}\% %;\
-        /elseif (priest>1) \
-          /set st1=%{st1} ghp: off %;\
-        /endif%;\
-	/if (gpowgroup=1 & priest>1) \
-	   /set st1=%{st1} gphp: %{atgphp}\%(%{maxgpowcount}) %;\
-        /elseif (priest>1) \
-          /set st1=%{st1} gphp: off %;\
-        /endif%;\
-      /else \
-        /set st1=all autohealing is disabled.%;\
-      /endif%;\
-      /if ({1} !~ '') \
-        tf %{1} , is set to, 'Tank: %{tank}, %{st1}' $[dynaheal()] (uzi %uziversion)%;\
-      /else \
-        gtf , is set to, 'Tank: %{tank}, %{st1}' $[dynaheal()] (uzi %uziversion)%;\
-      /endif%;\
-    /endif
+        /if (priest > 0 | templar > 1 | animist > 1) \
+                /if (aheal=1) \
+                        /unset st1%;\
+                        /set st1=Tank: %{tank},%;\
+                        /if (healcontrol !~ '') \
+                                /set st1=%{st1} HealC: %{healcontrol}, %;\
+                        /endif%;\
+                        /if (templar>1 | priest>1) \
+                                /if (miratank=1) \
+                                        /set st1=%{st1} mhp: %{atmhp}\%%;\
+                                /else \
+                                        /set st1=%{st1} mhp: off%;\
+                                /endif%;\
+                        /endif%;\
+                        /if (priest>0 | animist>1) \
+                                /if (truetank=1) \
+	                                /set st1=%{st1} thp: %{atthp}\%%;\
+                                /else \
+                                        /set st1=%{st1} thp: off%;\
+                                /endif%;\
+                                /if (truegroup=1) \
+	                                /set st1=%{st1} ghp: %{atghp}\%%;\
+                                /else \
+                                        /set st1=%{st1} ghp: off%;\
+                                /endif%;\
+                        /endif%;\
+                        /if (priest>1) \
+	                        /if (gpowgroup=1) \
+	                                /set st1=%{st1} gphp: %{atgphp}\%(%{maxgpowcount})%;\
+                                /else \
+                                        /set st1=%{st1} gphp: off%;\
+                                /endif%;\
+                        /endif%;\
+                /else \
+                        /set st1=all autohealing is disabled.%;\
+                /endif%;\
+                /if ({1} !~ '') \
+                        tf %{1} , is set to, '%{st1}' $[dynaheal()] (uzi %uziversion)%;\
+                /else \
+                        gtf , is set to, '%{st1}' $[dynaheal()] (uzi %uziversion)%;\
+                /endif%;\
+        /endif
 
 ; Mana threshold - start saving mana if below this
 /def th = \
-        /set thresh %{1}%;\
+        /set thresh=%{1}%;\
         /ecko Thresh: %{htxt2}%{1}
 
 /def hstate = \
@@ -64,52 +71,52 @@
 	/set thresh
 
 /def mhp = \
- /if (%1 =~ "off") \
-  /set miratank=0%;\
-/else \
- /set miratank=1%;\
-/endif%;\
-/set atmhp=%1%;\
-/ecko Miracling %{tank} at %{atmhp}.
+        /if (%1 =~ "off") \
+                /set miratank=0%;\
+        /else \
+                /set miratank=1%;\
+        /endif%;\
+        /set atmhp=%1%;\
+        /ecko Miracling %{tank} at %{atmhp}.
 
 /def thp = \
- /if (%1 =~ "off") \
-  /set truetank=0%;\
-/else \
- /set truetank=1%;\
-/endif%;\
-/set atthp=%1%;\
-/ecko Truehealing %{tank} at %{atthp}.
+        /if (%1 =~ "off") \
+                /set truetank=0%;\
+        /else \
+                /set truetank=1%;\
+        /endif%;\
+        /set atthp=%1%;\
+        /ecko Healing %{tank} at %{atthp}.
 
 /def ghp = \
- /if (%1 =~ "off") \
-  /set truegroup=0%;\
-/else \
- /set truegroup=1%;\
-/endif%;\
-/set atghp=%1%;\
-/ecko Truehealing Group at %{atghp}.
+        /if (%1 =~ "off") \
+                /set truegroup=0%;\
+        /else \
+                /set truegroup=1%;\
+        /endif%;\
+        /set atghp=%1%;\
+        /ecko Healing group at %{atghp}.
 
 /def gphp= \
- /if (%1 =~ "off") \
-  /set gpowgroup=0%;\
-/else \
- /set gpowgroup=1%;\
-/endif%;\
-/set atgphp=%1%;\
-/ecko Grouppowerheal at %{atgphp}. (%{maxgpowcount})
+        /if (%1 =~ "off") \
+                /set gpowgroup=0%;\
+        /else \
+                /set gpowgroup=1%;\
+        /endif%;\
+        /set atgphp=%1%;\
+        /ecko Grouppowerheal at %{atgphp}. (%{maxgpowcount})
 
-/def wildmagic=\
+/def wildmagic = \
 	/set miratank=0%;\
 	/set truetank=0%;\
 	/set truegroup=0%;\
 	/set autogpow=1%;\
 	/echo -aBCred Now using GPOWS forhealing ONLY! No singletarget spells
 
-/def area=\
+/def area = \
 	/wildmagic
 
-/def single=\
+/def single = \
 	/set miratank=1%;\
 	/set truetank=1%;\
 	/set truegroup=1%;\
@@ -125,63 +132,70 @@
 /def gth = \
 	/status
 
-/def -mregexp -t'^([A-Za-z]+) tells you \'mhp (off|[-|0-9]+)\'' cmhp = \
-	/if ((priest>1 | templar>1) & {P1}=~tank) \
+/def -F -q -mregexp -t"^([A-Za-z]+) tells you 'mhp (off|[-|0-9]+)'" cmhp = \
+	/if ({P1}=~tank & (priest>1 | templar>1)) \
 		/mhp %{P2}%;\
 		/status %{P1}%;\
 	/endif
 
-/def -mregexp -t'^([A-Za-z]+) tells you \'thp (off|[-|0-9]+)\'' cthp = \
-	/if (priest>1 & {P1}=~tank) \
+/def -F -q -mregexp -t"^([A-Za-z]+) tells you 'thp (off|[-|0-9]+)'" cthp = \
+	/if ({P1} =~ tank & (priest>0 | animist>1)) \
 		/thp %{P2}%;\
 		/status %{P1}%;\
 	/endif
 
-/def -F -q -mregexp -t'^([A-Za-z]+) tells you \'gphp (off|[-|0-9]+)\'' cgphp = \
-     /if (priest>1 & {P1}=~tank) \
-             /gphp %{P2}%;\
-	     /status %{P1}%;\
-     /endif
-
-/def -F -q -mregexp -t'^([A-Za-z]+) tells you \'ghp (off|[-|0-9]+)\'' cghp = \
-	/if (priest>1) \
+/def -F -q -mregexp -t"^([A-Za-z]+) tells you 'ghp (off|[-|0-9]+)'" cghp = \
+        /if ({P1} =~ tank & (priest>0 | animist>1)) \
 		/ghp %{P2}%;\
 		/status %{P1}%;\
 	/endif
 
+/def -F -q -E$[priest>1] -mregexp -t'^([A-Za-z]+) tells you \'gphp (off|[-|0-9]+)\'' cgphp = \
+     /if ({P1}=~tank) \
+             /gphp %{P2}%;\
+	     /status %{P1}%;\
+     /endif
+
+/def -F -q -E$[priest>1] -mregexp -t'^([A-Za-z]+) tells you \'gpc ([0-9]+)\'' cgphpc = \
+     /if ({P1}=~tank) \
+             /set maxgpowcount=%{P2}%;\
+	     /status %{P1}%;\
+     /endif
+
+
 /def -F -mregexp -p999999 -t'^([A-Za-z]+) tells you \'(aholy|sanc|autoholy|holy)(| on| off)\'' asancself = \
-  /if ({1}=~tank) \
-    /if (autoholy=1) \
-      /if (templar>1) \
-        /set autoholy=0%;\
-        /set sanctype=sanc%;\
-        tell %1 Autosanc self &+RDeactivated.%;\
-      /elseif (priest>0) \
-        /set autoholy=0%;\
-        /set sanctype=holyword%;\
-        tell %1 Autoholy &+RDeactived.%;\
-      /endif%;\
-    /else \
-      /if (templar>1) \
-        /set autoholy=1%;\
-        /set sanctype=sanc%;\
-        tell %1 Autosanc self &+GActivated.%;\
-      /elseif (priest>0) \
-        /set autoholy=1%;\
-        /set sanctype=holyword%;\
-        tell %1 Autoholy &+GActivated.%;\
-      /endif%;\
-    /endif%;\
-  /endif
+        /if ({1}=~tank) \
+                /if (autoholy=1) \
+                        /if (templar>1) \
+                                /set autoholy=0%;\
+                                /set sanctype=sanc%;\
+                                tell %1 Autosanc self &+RDeactivated.%;\
+                        /elseif (priest>0) \
+                                /set autoholy=0%;\
+                                /set sanctype=holyword%;\
+                                tell %1 Autoholy &+RDeactived.%;\
+                        /endif%;\
+                /else \
+                        /if (templar>1) \
+                                /set autoholy=1%;\
+                                /set sanctype=sanc%;\
+                                tell %1 Autosanc self &+GActivated.%;\
+                        /elseif (priest>0) \
+                                /set autoholy=1%;\
+                                /set sanctype=holyword%;\
+                                tell %1 Autoholy &+GActivated.%;\
+                        /endif%;\
+                /endif%;\
+        /endif
 
 /def ah = \
-  /if (aheal=0) \
-    /ecko Autohealing: %{htxt2}ON%; \
-    /set aheal=1%; \
-  /else \
-    /ecko Autohealing: %{htxt2}OFF%; \
-    /set aheal=0%; \
-  /endif
+        /if (aheal=0) \
+                /ecko Autohealing: %{htxt2}ON%; \
+                /set aheal=1%; \
+        /else \
+                /ecko Autohealing: %{htxt2}OFF%; \
+                /set aheal=0%; \
+        /endif
 
 
 /def autorem = \
@@ -218,12 +232,14 @@
                 /echo -aCred You will let them regen theirselves.%; \
         /endif
 
-/def -mregexp -t'[^ ] suddenly shivers slightly.' regend = \
-	/if (aregen=1) \
-		/set remit=0%;/set askperson=%{1}%; \
-		/autorem %{askperson} %;\
-		/if (remit=1) regen %{askperson}%;/set lspell= regen %{askperson}%;/endif%;\
-/endif
+/def -mregexp -Earegen -t'[^ ] suddenly shivers slightly.' regend = \
+	/set remit=0%;\
+        /set askperson=%{1}%;\
+	/autorem %{askperson} %;\
+	/if (remit=1) \
+                cast 'regenerate' %{askperson}%;\
+                /set lspell=regen %{askperson}%;\
+        /endif
 
 /set grouparm=0
 /def garm = \
@@ -232,17 +248,17 @@
           /ecko You will auto Armor the group.%; \
         /else \
           /set grouparm=0 %; \
-          /ecko You will let them cast thier own Armor spells!%; \
+          /ecko You will let them cast their own armor spells!%; \
         /endif
 
 /set abless=0
 /def autobless = \
 	/if (abless=0) \
 		/set abless=1%; \
-			/echo -aCred You will bless ppl when they lose they way.%; \
+			/echo -aCred You will bless people when they lose they way.%; \
 	/else \
 		/set abless=0%; \
-			/echo -aCred You don't think ppl deserve to be blessed without asking.%; \
+			/echo -aCred You don't think people deserve to be blessed without asking.%; \
 	/endif
 
 /set ablind=3
@@ -277,18 +293,18 @@
 
 ;; Wound-bleed.
 /def -p1 -aBCred -mglob -t'You bleed from your wounds.' acurebleed = \
-  /if (priest|templar|animist>0) \
-    cast 'Cure Critic' self%;\
-  /elseif (askpr!~'') \
-    ask %askpr cc%;\
-  /endif
+        /if (priest|templar|animist>0) \
+                cast 'cure critic' self%;\
+        /elseif (askpr!~'') \
+                ask %askpr cc%;\
+        /endif
 
 /def -p1 -aBCred -mglob -t'You feel burning poison in your blood, and suffer.' arempoison = \
-  /if (priest|templar|animist|nightblade>0) \
-    cast 'Remove Poison' self%;\
-  /elseif (askpr!~'') \
-    ask %askpr rp%;\
-  /endif
+        /if (priest|templar|animist|nightblade>0) \
+                cast 'remove poison' self%;\
+        /elseif (askpr!~'') \
+                ask %askpr rp%;\
+        /endif
 
 /set acurse=0
 /def autocurse = \
@@ -335,17 +351,16 @@
 	/if (tickison=0) /set tickison=1%; gg%; /endif
 
 /def -F -p999 -mregexp -t'assists|rushes to attack|is here, fighting|heroically rescues' assasdf4 = \
-        /if (tickison=0) /set tickison=1%; gg%; /endif
+	/if (tickison=0) /set tickison=1%; gg%; /endif
 
 /def -F -p999 -mregexp -t'No way\! You are fighting for your life' ass1asdf = \
-        /if (tickison=0) /set tickison=1%; gg%; /endif
-
+	/if (tickison=0) /set tickison=1%; gg%; /endif
 
 /def -p99 -F -q -mregexp -t'([^ ]*) (misses|hits|pounds|crushes|tickles|pierces|cuts|blasts|slashes\
   |massacres|obliterates|annihilates|vaporizes|pulverizes|atomizes|ultraslays\
-  |\*\*\*ULTRASLAYS\*\*\*) ([^ ]*)' autoassist1asdf = \
-        /set who1=%{P1}%; /set who2=%{P3}%; \
-        /if (tickison=0 & aheal=1) /set tickison=1%; gg%; /endif
+  |\*\*\*ULTRASLAYS\*\*\*|\*\*\*U\*L\*T\*R\*A\*S\*L\*A\*YS\*\*\*|\*\*\*SPANKS\*\*\*) ([^ ]*)' autoassist1asdf = \
+	/set who1=%{P1}%; /set who2=%{P3}%; \
+	/if (tickison=0 & aheal=1) /set tickison=1%; gg%; /endif
 
 /set groupass=1
 /set assist=1
@@ -353,8 +368,8 @@
 /def -E%{gimpmira} -mregexp -t'([^ ]*) tells you \'gimp\'' priestmir=mira %{P1}
 ;/def -mregexp -F -t'You receive|Whom do you wish to assist|is not fighting anybody|and attempts to flee' ass2 = /set groupass=1
 
-/def -mregexp -t'tells the group, \'status\'' gtstatus=/status
-/def -mregexp -t'([A-z]+)tells you \'status\'' tellonstatus=/status %{P1}
+/def -mregexp -t'tells the group, \'status\'' gtstatus = /status
+/def -mregexp -t'([A-z]+)tells you \'status\'' tellonstatus = /status %{P1}
 
 /def -mregexp -t'tells you \'vis\'' leadervis = \
         /if ({1}=~leader) \
@@ -399,19 +414,20 @@
                 /ecko HMOD:   Min: %{mod_min} Max: %{mod_max} Floor: %{mod_thr}%;\
         /endif
         
-/def -p199999 -mregexp -t'^([A-Za-z]+) tells you \'hmod ([\-]*[0-9]+) ([0-9]+) ([0-9]+)\'' hmod_tell1 = \
-     /if ((priest>1 | templar>1) & {P1}=~tank) \
-        /hmod %{P2} %{P3} %{P4}%;\
-        /hmodstat%;\
-     /endif
+/def -Eaheal -p199999 -mregexp -t"^([A-Za-z]+) tells you 'hmod ([\-]*[0-9]+) ([0-9]+) ([0-9]+)'" hmod_tell1 = \
+        /if ({P1}=~tank) \
+                /hmod %{P2} %{P3} %{P4}%;\
+                /hmodstat%;\
+        /endif
 
-/def -p199999 -mregexp -t'^([A-Za-z]+) tells you \'hmod ([A-z]+)\'' hmod_tell2 = \
-     /if ((priest>1 | templar>1) & {P1}=~tank) \
-        /hmod %{P2}%;\
-        /hmodstat%;\
-     /endif
+/def -Eaheal -p199999 -mregexp -t"^([A-Za-z]+) tells you 'hmod ([A-z]+)'" hmod_tell2 = \
+        /if ({P1}=~tank) \
+                /hmod %{P2}%;\
+                /hmodstat%;\
+        /endif
 
-/def -mregexp -t'tells the group, \'hmod\'' hmod_gtell_status=/hmodstat
+/def -Eaheal -mregexp -t"tell[s]* the group, 'hmod'" hmod_gtell_status = \
+        /hmodstat
 
 /def hmodstat = \
         /if (mod_min==0 & mod_max==0) \
@@ -452,7 +468,7 @@
         /set maxmana=%{_bakmaxmana}
 
 ; :heal syntax
-/def -F -E(priest>1|templar>1) -mregexp -t"^([A-Z][a-z]+) tells you ':heal (.+)'$" multi_set_heal = \
+/def -F -Eaheal -mregexp -t"^([A-Z][a-z]+) tells you ':heal (.+)'$" multi_set_heal = \
 	/let _person=%{P1}%;\
 	/if ((_person =~ tank) | (_person =~ healcontrol)) \
 		/let _matched=$[tolower({P2})]%;\
