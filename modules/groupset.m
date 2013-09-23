@@ -99,7 +99,7 @@
 
 /def -p1 -F -mglob -t"You go to sleep." sleepspell1 = aff%;/set position=sleep
 
-/def -p1 -F -mglob -t'You stop resting, and stand up.' restspell2=\
+/def -p1 -F -mglob -t"You stop resting, and stand up." restspell2=\
 	/if (standtocast != 1) \
 	        /aftertick%;\
 	        /set position=stand%;\
@@ -108,7 +108,7 @@
 	        /set standtocast=0%;\
 	/endif
 
-/def -p1 -F -aB -msimple -t'You wake, and stand up.' position_stand_1=\
+/def -p1 -F -aB -msimple -t"You wake, and stand up." position_stand_1=\
 	/if (standtocast != 1) \
 	        /aftertick%;\
 	        /set position=stand%;\
@@ -135,9 +135,10 @@
         /set position=rest%;\
         aff
 
-/def -p1 -F -mglob -t"You sit down and rest your tired bones." restspell1 = \
+/def -p1 -F -mglob -t"You sit down and rest your tired bones." position_rest_2 = \
         /set position=rest%;\
         aff
+
 ;; DD cop
 
 /set ddcoping=0
@@ -190,24 +191,24 @@
 /set castedholygate=0
 /set gatedto=Noone
 
-/def -aBCmagenta -E$[priest>1] -mregexp  -t'^([^ ]*) tells you \'gate ([^ ]*)\'' priestgate= \
+/def -aBCmagenta -E$[priest>1] -mregexp  -t"^([^ ]*) tells you 'gate ([^ ]*)'" priestgate = \
         /if ((%{leader}=/%{P1})|(%{tank}=/%{P1})) \
                 /set castedholygate=1%;\
                 /set gatedto=%{P2}%;\
                 cast 'holy gate' %{P2}%;\
         /endif
 
-/def -aBCmagenta -E$[castedholygate & priest>1] -mregexp -t'You wait in vain as no dimension portal appears.' holygatevain = \
+/def -aBCmagenta -E$[{castedholygate}&{priest}>1] -msimple -t"You wait in vain as no dimension portal appears." holygatevain = \
         gt Can't establish gate to %{gatedto}.%;\
         /set castedholygate=0%;\
         /unset gatedto
 
-/def -aBCmagenta -E$[castedholygate & priest>1] -mregexp -t'You create a red field of energy.' holygatedone = \
+/def -aBCmagenta -E$[{castedholygate}&{priest}>1] -msimple -t"You create a red field of energy." holygatedone = \
 	gtf , has created a nice field to %{gatedto}.%;\
 	/set castedholygate=0%;\
         /unset gatedto
 
-/def -aBCmagenta -E$[castedholygate & priest>1] -mregexp -t'You can\'t concentrate enough to create a new portal\.' holygatecant = \
+/def -aBCmagenta -E$[{castedholygate}&{priest}>1] -msimple -t"You can't concentrate enough to create a new portal." holygatecant = \
         gtf , can't create any more fields at this moment.%;\
         /set castedholygate=0%;\
         /unset gatedto
