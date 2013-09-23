@@ -1,3 +1,10 @@
+1.5
+ - derfian:            : Allow autoheals for pure animists.
+                       : Enable autoheal for pets and certain charmed mobs.
+                       : Make uzi recognize and work with L1-9/50 characters
+                       : Allow half-priests to use autoheal.
+                       : Add spellup of mirror image (/mi)
+
 1.4
  - derfian:            : Wrote the bugtracker at http://uzi-tf.no-ip.org/ to help us gather info from users. 
  - Solias:  autospell.m: Heals can now be turned completely off.
