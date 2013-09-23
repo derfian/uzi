@@ -4,6 +4,7 @@
 /lood modules/values.m
 /lood modules/functions.m
 
+; Who are we?
 /def -p2147483647 -n1 -mregexp -t'Saving ([^\.]+).' GettingCharInfo01 = \
 	/set char=%{P1}%;\
 	/set tank=%{P1}%;\
@@ -23,9 +24,16 @@
 		/send finger self%;\
 	/endif
 
-/def -p2147483647 -mregexp -t'\[[ ]*[0-9]+\/[0-9]+[ ]+([^\/]+)\/([A-z]+)\]' GettingCharInfo02 = \
+; Some test cases... the triggers must with with all of these cases:
+; [ 1/50  Pr/Ro] Awesome the Peon [Dwa] [neutral] [Petty Purse-snatcher] (Male)
+; [20/50  Ma/Te] Cyan Garamonde. [Hum] [good] [Humble Page] (Male)
+; [52/52  Ma/Pr] Utility exp [Dwa] [neutral] [Silent Monk] (It)
+; [65/65  Ma/Fi] Raptor Jesus Incarnate the Lord of the Realm [Ktv] [evil] [Dark Champion] (Male)
+; [100/100  Pr/Pr] Syden the Lord of the Realm [Ktv] [neutral] [Master of Protection] (Male)
+
+/def -p2147483647 -mregexp -t'^\[[ 0-9]+\/[0-9]+[ ]+([^\/]+)\/([A-z]+)\]' GettingCharInfo02 = \
 	/let charclassI=%{P2}%;\
-	/let charclassII=%{P1}%;\
+	/let charclassII=$[replace(" ", "", %{P1})]%;\
 	/if (regmatch({char}, {*})) \
 		/GettingCharClass %{charclassI}%;\
 		/GettingCharClass %{charclassII}%;\
@@ -42,6 +50,8 @@
 		/purge UhmGetCharInfo%;\
 		/repeat -0:00:01 1 /welcomemsg%;\
 	/endif
+
+; Singleclassed
 
 /def -p2147483647 -mregexp -t'\[[ ]+[0-9]+[ ]+([A-z]+)[ ]+\]' GettingCharInfo03 = \
         /let charclassI=%{P1}%;\
@@ -267,7 +277,7 @@
 
 
 
-/set uziversion=1.5beta
+/set uziversion=1.5
 /set subversion=1
 /def uziver = \
   /return %uziversion
