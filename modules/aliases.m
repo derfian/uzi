@@ -1,12 +1,30 @@
 ; -*- mode: tf -*-
 
 /def -ag -p2147483647 -hREDEF gagredef
+
 ;;Common Aliases
 /alias b /butch %{*}
 /alias bl bleedlog show group
-/alias calc /test calc:=(%{*})%;/echo -a -p @{BCyellow}>> @{nBCwhite} %{calc}
-/alias cast /send cast %{*}%;/set lspell2=%{lspell}%;/set lspell=cast %{*}%;/eval /echo -a -p %{htxt2}cast $[toupper(%{*})]
-/alias cr get all %{char}%;wield %{weapon}%;grab %heldeq%;wear all%;get all %{char}%;wear all%;get %{char}%;donate %{char}
+/alias calc \
+        /test calc:=(%{*})%;\
+        /echo -a -p @{BCyellow}>> @{nBCwhite} %{calc}
+
+/alias cast \
+        /send cast %{*}%;\
+        /set lspell2=%{lspell}%;\
+        /set lspell=cast %{*}%;\
+        /eval /echo -a -p %{htxt2}cast $[toupper(%{*})]
+
+/alias cr \
+        get all %{char}%;\
+        wield %{weapon}%;\
+        grab %heldeq%;\
+        wear all%;\
+        get all %{char}%;\
+        wear all%;\
+        get %{char}%;\
+        donate %{char}
+
 /alias dir look north%;look east%;look south%;look west%;look up%;look down
 /alias dl damlog show group
 /alias el explog show group
@@ -23,6 +41,7 @@
 /alias od open door %{*}
 /alias of order followers %*
 /alias ord order followers RECALL
+
 /alias opp \
         /if (%1=~'') /ecko Error, syntax: opp <character>%;/break%;\
         /else%;\
@@ -30,21 +49,22 @@
                 /let _temp=$[world_info(_char,"password")]%;\
                 /if (_temp=~'') /ecko No passwords stored for %_char%;/break%;\
                 /else open %_char %_temp%;\
-        /endif%;\
+                /endif%;\
         /endif
 
 /alias q qq %*
 /alias qq gc %1 potion quaff %*
 /alias pc /pc %*
 /if (fighter|templar>0) \
-  /alias r rescue%;\
-  /if (rogue=0) \
-    /alias peek tell %%{peeker} peek %%{*}%;\
-    /alias pk peek %%{*}%;\
-  /endif%;\
-/else \
-  /alias r retreat%%;%%{*}%;\
-/endif
+        /alias r rescue%;\
+                /if (rogue=0) \
+                        /alias peek tell %%{peeker} peek %%{*}%;\
+                                /alias pk peek %%{*}%;\
+                /endif%;\
+        /else \
+                /alias r retreat%%;%%{*}%;\
+        /endif
+
 /alias rr gc %1 scroll recite %*
 /alias rl get rec %{container}%;rec recall %{*}
 /alias so score
@@ -54,48 +74,48 @@
 /alias weara wear all
 
 /if (fighter>0) \
-  /alias tipi build tipi%;\
+        /alias tipi build tipi%;\
 /endif
 
 ;;Caster Spells
 /if (magician|warlock|templar>0) \
-  /alias str cast 'strength' %%{*}%;\
+        /alias str cast 'strength' %%{*}%;\
 /endif
 
 /if (magician|warlock|templar|priest|nightblade>0) \
-  /alias arm cast 'armor' %%{*}%;\
+        /alias arm cast 'armor' %%{*}%;\
 /endif
 
 /if (nightblade|priest>0) \
-  /alias slife cast 'sense life'%;\
+        /alias slife cast 'sense life'%;\
 /endif
 
 /if (warlock|nightblade|templar>0) \
-  /lood modules/immo.m%;\
+        /lood modules/immo.m%;\
 /endif
 
 /if (magician|warlock>0) \
-  /alias blur cast 'blur'%;\
-  /alias di cast 'detect invis'%;\
-  /alias hs cast 'haste'%;\
-  /alias haste cast 'haste'%;\
-  /alias inv cast 'invisibility' %%{*}%;\
-  /alias imp cast 'improved invisibility' %%{*}%;\
-  /alias mord /if (morden=1) /ecko Already using mordens!?%%;/else cast 'Mordenkainen's Sword'%%;/endif%;\
-  /alias tele cast 'Teleport Without Error'%;\
-  /alias telep cast 'teleport'%%;/set lspell=nothing%%;/set hometown=telep%;\
+        /alias blur cast 'blur'%;\
+        /alias di cast 'detect invis'%;\
+        /alias hs cast 'haste'%;\
+        /alias haste cast 'haste'%;\
+        /alias inv cast 'invisibility' %%{*}%;\
+        /alias imp cast 'improved invisibility' %%{*}%;\
+        /alias mord /if (morden=1) /ecko Already using mordens!?%%;/else cast 'Mordenkainen's Sword'%%;/endif%;\
+        /alias tele cast 'Teleport Without Error'%;\
+        /alias telep cast 'teleport'%%;/set lspell=nothing%%;/set hometown=telep%;\
 /elseif (priest>0) \
-  /alias di cast 'detect invis'%;\
-  /alias tele cast 'word of recall'%;\
+        /alias di cast 'detect invis'%;\
+        /alias tele cast 'word of recall'%;\
 /elseif (nightblade>0) \
-  /alias blur cast 'Blur'%;\
-  /alias di cast 'detect invis'%;\
-  /alias tele cast 'Teleport Without Error'%;\
+        /alias blur cast 'Blur'%;\
+        /alias di cast 'detect invis'%;\
+        /alias tele cast 'Teleport Without Error'%;\
 /else \
-  /if (!rogue>0) \
-    /alias di gc red potion quaff red%;\
-  /endif%;\
-  /alias tele recall%;\
+        /if (!rogue>0) \
+                /alias di gc red potion quaff red%;\
+        /endif%;\
+        /alias tele recall%;\
 /endif
 
 ;;Magician Spells
@@ -111,7 +131,7 @@
 			retreat%%;cast 'Circle Of Protection'%%;/set groupass=1%%;/set sentassist=0%%;\\
 		/endif%%;\\
 		/set lspell=cop%;\
-	/alias blindness cast 'Blindness' %%{*}%;\
+        /alias blindness cast 'Blindness' %%{*}%;\
 	/alias bh cast 'Burning Hands' %%{*}%;\
 	/alias bm cast 'Blood Mirror'%;\
 	/alias ck cast 'Cloudkill'%;\
@@ -169,86 +189,86 @@
 
 ;;Warlock Spells
 /if (warlock>0) \
-  /alias bt cast 'Bladeturn'%;\
-  /alias cc cast 'Combat'%;\
-  /alias combat cast 'Combat'%;\
-  /alias fb cast 'Fire Bolt' %%{*}%;\
-  /alias h head %%{*}%;\
-  /alias ib cast 'Ice Bolt' %%{*}%;\
-  /alias immo /immo %%{*}%;\
-  /alias immof /immo fire%;\
-  /alias immoc /immo cold%;\
-  /alias mshield cast 'Mana Shield'%;\
-  /alias nb cast 'Nether Bolt' %%{*}%;\
-  /alias sb cast 'Shock Bolt' %%{*}%;\
-  /alias wb cast 'Water Bolt' %%{*}%;\
-  /if (warlock=2) \
-      /alias tof cast 'Triad Of Fire' %%{1} %%{2} %%{3}%;\
-      /alias toi cast 'Triad Of Ice' %%{1} %%{2} %%{3}%;\
-      /alias rite cast 'Blood Rite'%;\
-	  /alias rop cast 'Ritual Of Pain'%;\
-  /endif%;\
+        /alias bt cast 'Bladeturn'%;\
+        /alias cc cast 'Combat'%;\
+        /alias combat cast 'Combat'%;\
+        /alias fb cast 'Fire Bolt' %%{*}%;\
+        /alias h head %%{*}%;\
+        /alias ib cast 'Ice Bolt' %%{*}%;\
+        /alias immo /immo %%{*}%;\
+        /alias immof /immo fire%;\
+        /alias immoc /immo cold%;\
+        /alias mshield cast 'Mana Shield'%;\
+        /alias nb cast 'Nether Bolt' %%{*}%;\
+        /alias sb cast 'Shock Bolt' %%{*}%;\
+        /alias wb cast 'Water Bolt' %%{*}%;\
+        /if (warlock=2) \
+		/alias tof cast 'Triad Of Fire' %%{1} %%{2} %%{3}%;\
+		/alias toi cast 'Triad Of Ice' %%{1} %%{2} %%{3}%;\
+		/alias rite cast 'Blood Rite'%;\
+		/alias rop cast 'Ritual Of Pain'%;\
+	/endif%;\
 /endif
   
 
 ;;Nightblade Spells
 /if (nightblade>0) \
-  /alias a assassinate %%{*}%;\
-  /alias adr cast 'Adrenal Focus'%;\
-  /alias att cast 'attack' %%{*}%;\
-  /alias aod /despair %%{*}%;\
-  /alias blind cast 'Blindness' %%{*}%;\
-  /alias dd merge %%{*}%;\
-  /alias dp cast 'Detect Poison' %%{*}%;\
-  /alias imp cast 'improved invisibility'%;\
-  /alias m murder %%{*}%;\
-  /alias mh cast 'Mountain Heart'%;\
-  /alias po cast 'poison' %%{*}%;\
-  /alias rp cast 'Remove Poison' %%{*}%;\
-  /alias sd cast 'Shadow Displacement' %%{*}%;\
-  /alias sform cast 'Shadow Form'%;\
-  /if (nightblade=2) \
-    /alias dv cast 'Darkvision'%;\
-    /alias dshadow cast 'Deathshadow'%;\
-    /alias lblood cast 'Life Blood'%;\
-    /alias venom cast 'Venom' %%{*}%;\
-  /endif%;\
+	/alias a assassinate %%{*}%;\
+	/alias adr cast 'Adrenal Focus'%;\
+	/alias att cast 'attack' %%{*}%;\
+	/alias aod /despair %%{*}%;\
+	/alias blind cast 'Blindness' %%{*}%;\
+	/alias dd merge %%{*}%;\
+	/alias dp cast 'Detect Poison' %%{*}%;\
+	/alias imp cast 'improved invisibility'%;\
+	/alias m murder %%{*}%;\
+	/alias mh cast 'Mountain Heart'%;\
+	/alias po cast 'poison' %%{*}%;\
+	/alias rp cast 'Remove Poison' %%{*}%;\
+	/alias sd cast 'Shadow Displacement' %%{*}%;\
+	/alias sform cast 'Shadow Form'%;\
+	/if (nightblade=2) \
+		/alias dv cast 'Darkvision'%;\
+		/alias dshadow cast 'Deathshadow'%;\
+		/alias lblood cast 'Life Blood'%;\
+		/alias venom cast 'Venom' %%{*}%;\
+	/endif%;\
 /endif
 
 ;;Templar Spells
 /if ({templar} > 0) \
-        /alias aura /haura %%{*}%;\
-        /alias bless cast 'Bless' %%{*}%;\
-        /alias chan cast 'Channel' %%{*}%;\
-        /alias channel cast 'Channel' %%{*}%;\
-        /alias cc cast 'Cure Critic' %%{*}%;\
-        /alias critic cast 'Cause Critic' %%{*}%;\
-        /alias da cast 'Detect Alignment'%;\
-        /alias disp cast 'Dispel' %%{*}%;\
-        /alias dispel cast 'Dispel' %%{*}%;\
-        /alias dp cast 'Detect Poison' %%{*}%;\
-        /alias harm cast 'Holy Armor'%;\
-        /alias haura /haura %%{*}%;\
-        /alias heal cast 'Heal' %%{*}%;\
-        /alias jdg cast 'Judgement' %%{*}%;\
-        /alias jm cast 'Judgement' %%{*}%;\
-        /alias judge cast 'Judgement' %%{*}%;\
-        /alias light cast 'Cure Light' %%{*}%;\
-        /alias prot cast 'Protection' %%{*}%;\
-        /alias serious cast 'Cure Serious' %%{*}%;\
-        /alias pacify cast 'Pacify' %%{*}%;\
-        /alias pr cast 'Prayer'%;\
-        /alias pray cast 'Prayer'%;\
-        /alias prayer cast 'Prayer'%;\
-        /alias rc cast 'Remove Curse' %%{*}%;\
-        /alias rp cast 'Remove Poison' %%{*}%;\
-        /alias sanc cast 'Sanctuary' %%{*}%;\
-        /if ({templar} == 2) \
-              /alias suff cast 'Sufferage' %%{*}%;\
-              /alias sufferage cast 'Sufferage' %%{*}%;\
-              /alias mira cast 'Miracle' %%{*}%;\
-	      /alias hc cast 'Holy Crusade'%;\
-  /endif%;\
+	/alias aura /haura %%{*}%;\
+	/alias bless cast 'Bless' %%{*}%;\
+	/alias chan cast 'Channel' %%{*}%;\
+	/alias channel cast 'Channel' %%{*}%;\
+	/alias cc cast 'Cure Critic' %%{*}%;\
+	/alias critic cast 'Cause Critic' %%{*}%;\
+	/alias da cast 'Detect Alignment'%;\
+	/alias disp cast 'Dispel' %%{*}%;\
+	/alias dispel cast 'Dispel' %%{*}%;\
+	/alias dp cast 'Detect Poison' %%{*}%;\
+	/alias harm cast 'Holy Armor'%;\
+	/alias haura /haura %%{*}%;\
+	/alias heal cast 'Heal' %%{*}%;\
+	/alias jdg cast 'Judgement' %%{*}%;\
+	/alias jm cast 'Judgement' %%{*}%;\
+	/alias judge cast 'Judgement' %%{*}%;\
+	/alias light cast 'Cure Light' %%{*}%;\
+	/alias prot cast 'Protection' %%{*}%;\
+	/alias serious cast 'Cure Serious' %%{*}%;\
+	/alias pacify cast 'Pacify' %%{*}%;\
+	/alias pr cast 'Prayer'%;\
+	/alias pray cast 'Prayer'%;\
+	/alias prayer cast 'Prayer'%;\
+	/alias rc cast 'Remove Curse' %%{*}%;\
+	/alias rp cast 'Remove Poison' %%{*}%;\
+	/alias sanc cast 'Sanctuary' %%{*}%;\
+	/if ({templar} == 2) \
+		/alias suff cast 'Sufferage' %%{*}%;\
+		/alias sufferage cast 'Sufferage' %%{*}%;\
+		/alias mira cast 'Miracle' %%{*}%;\
+		/alias hc cast 'Holy Crusade'%;\
+        /endif%;\
 /endif
 
 ;;Priest Spells
