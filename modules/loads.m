@@ -15,10 +15,7 @@
 /lood modules/autofight.m
 /lood modules/autoheal.m
 /lood modules/autospell.m
-
-; /lood modules/bind.m
-/lood personal/bind.m
-
+/lood modules/bind.m
 /lood modules/common.m
 /lood modules/config.m
 /lood modules/cweap.m
@@ -27,10 +24,7 @@
 /lood modules/death.m
 /lood modules/gags.m
 /lood modules/groupset.m
-
-; /lood modules/hilite.m
-/lood personal/hilite.m
-
+/lood modules/hilite.m
 /lood modules/menu/system.menu
 /lood modules/plus.m
 /lood modules/prompt.m
@@ -43,10 +37,7 @@
 /lood modules/tellog.m
 /lood modules/themes.m
 /lood modules/well.m
-
-;/lood modules/wellfrags.m
-/lood personal/wellfrags.m
-
+/lood modules/wellfrags.m
 /lood modules/wimpy.m
 
 ;========================================
@@ -57,5 +48,4 @@
 /lood addons/avdam.m
 /lood addons/identer.m
 /lood addons/userlist.m
-/lood personal/extras.m
 ;;;

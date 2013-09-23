@@ -1,6 +1,5 @@
-/load /home/derfian/uzi/uzi
-/load /home/derfian/uzi/tiny.world
+# Sample ~/.tfrc file
 
-;; /def -i -msimple -t"You open window 2." AutoLoadWin2 = \
-;; 	/load /home/derfian/uzi/personal/window2.x
+/load ~/uzi/uzi
+/load ~/uzi/tiny.world
 
