@@ -5,7 +5,7 @@
         /if ({file_exists} = 1) \
                 /eval /sys rm %{uzidirectory}/saves/global.sav%;\
         /endif%;\
-        /eval /set uzisavefile=%uzidirectory/saves/global.sav%;\
+        /eval /set uzisavefile=%{uzidirectory}/saves/global.sav%;\
         /uzisavetxt ;=-=-=-=-=-=-=-=-= Uzi Global Settings (v.%uziversion) =-=-=-=-=-=-=-=-=-=-=%;\
         /uzisavetxt %;\
         /uzisavevar beepontell%;\
