@@ -78,12 +78,6 @@
   /elseif ({1} =~ 'f') \
     /set afkmsg=%{-1}%;\
     /ecko Afk-msg set to: %{htxt2}%{-1}%;\
-  /elseif ({1} =~ 'g') \
-    /set pageicq=%{-1}%;\
-    /ecko Icq pager set to: %{htxt2}%{-1}%;\
-  /elseif ({1} =~ 'h') \
-    /set icquin=%{-1}%;\
-    /ecko Icquin set to: %{htxt2}%{-1}%;\
   /elseif ({1} =~ 'i') \
     /set autoreconnect=%{-1}%;\
     /ecko Autoreconnect set to: %{htxt2}%{-1}%;\

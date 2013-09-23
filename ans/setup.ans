@@ -7,8 +7,6 @@
 /eval /echo -an -p %ntxt2      [%ntxt\d%ntxt2]%ntxt log deaths                                     %ntxt2[%htxt2%logondeath%ntxt2]
 /eval /echo -an -p %ntxt2      [%ntxt\e%ntxt2]%ntxt afk-teller                                     %ntxt2[%htxt2%afkteller%ntxt2]
 /eval /echo -an -p %ntxt2      [%ntxt\f%ntxt2]%ntxt afk-msg   %ntxt2[%htxt2%afkmsg%ntxt2]
-/eval /echo -an -p %ntxt2      [%ntxt\g%ntxt2]%ntxt page ICQ on beep                               %ntxt2[%htxt2%pageicq%ntxt2]
-/eval /echo -an -p %ntxt2      [%ntxt\h%ntxt2]%ntxt ICQ uin                                        %ntxt2[%htxt2%icquin%ntxt2]
 /eval /echo -an -p %ntxt2      [%ntxt\i%ntxt2]%ntxt autoreconnect                                  %ntxt2[%htxt2%autoreconnect%ntxt2]
 /eval /echo -an -p %ntxt2      [%ntxt\j%ntxt2]%ntxt lines to show in tellog                        %ntxt2[%htxt2%showtellrows%ntxt2]
 /eval /echo -an -p %ntxt2      [%ntxt\k%ntxt2]%ntxt refol on leader death                          %ntxt2[%htxt2%refolonleaderdeath%ntxt2]

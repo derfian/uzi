@@ -7,8 +7,6 @@
 /set autoreconnect=1
 /set afkteller=1
 /set afkmsg=
-/set pageicq=0
-/set icquin=Unknown
 /set showtellrows=20
 /set gagprompt=1
 /set uziautosave=

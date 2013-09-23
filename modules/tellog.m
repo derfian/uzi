@@ -8,8 +8,6 @@
 /endif
 
 /if (tellogger=~'') /set tellogger=1%;/endif
-/if (icquin=~'') /set icquin=Unknown%;/endif
-/if (pageicq=~'') /set pageicq=0%;/endif
 /if (afkteller=~'') /set afkteller=1%;/endif
 /if (afkmsg=~'') /set afkmsg=I'm currently &+RAFK&+g, try later.%;/endif
 /if (showtellrows=~'') /set showtellrows=20%;/endif
@@ -50,9 +48,6 @@
   /let temptell=%{*}%;\
   /let tempchar=$[strcat(tolower({char}))]%;\
   \
-  /if (regmatch(tolower({char}),tolower({*})) & pageicq) \
-      /logtell $[replace("\"", '\"', {*})]%;\
-	  /quote /echo !echo %{*} | sendxmpp -r %{char}@BurningMUD derfian@lysator.liu.se%;\
   /endif
 
 /def tells = \
@@ -96,28 +91,21 @@
 	/ismember $[tolower(replace("'", "", {4}))] %{tellgagwords}%;\
 	/if (inlist=0) \
 		/logtell $[replace("\"", '\"', {*})]%;\
-		/ismember %{1} %{godlist2}%;\
-		/if ((inlist=1)&(pageicq=1)) \
-			/quote /echo !echo %{P1}: %{P2} | sendxmpp -r %{char}@BurningMUD derfian@lysator.liu.se%;\
-		/else \
-			/let idledays=$[ftime("%d", idle()-3600)-1]%;\
-			/let idlehour=$[ftime("%H", idle()-3600)]%;\
-			/let idlemin=$[ftime("%M", idle()-3600)]%;\
-			/let idlesec=$[ftime("%S", idle()-3600)]%;\
-			/if (afkteller=1 & isafk=1 & (idlesec>20 | idlemin>0 | idlehour>0 | idledays>0)) \
-        /if (tellogger=1) \
-			/let telllogger=ON%;\
-        /else \
-			/let telllogger=OFF%;\
-        /endif%;\
-        tf %{1} emote is away: &+g%afkmsg&+L  &+L....&+G(&+gIdle&+L:\
-        &+g%idledays&+Ld&+g%idlehour&+Lh&+g%idlemin&+Lm&+g%idlesec&+Ls \
-        &+L..&+gLogger&+L:&+g%telllogger&+G) Uzi $(/uziver)%;\
-    /endif%;\
-    /if (pageicq=1) \
-	    /quote /echo !echo %{*} | sendxmpp -r %{char}@BurningMUD derfian@lysator.liu.se%;\
-    /endif%;\
-/endif%;\
+		/let idledays=$[ftime("%d", idle()-3600)-1]%;\
+		/let idlehour=$[ftime("%H", idle()-3600)]%;\
+		/let idlemin=$[ftime("%M", idle()-3600)]%;\
+		/let idlesec=$[ftime("%S", idle()-3600)]%;\
+		/if (afkteller=1 & isafk=1 & (idlesec>20 | idlemin>0 | idlehour>0 | idledays>0)) \
+			/if (tellogger=1) \
+				/let telllogger=ON%;\
+			/else \
+				/let telllogger=OFF%;\
+			/endif%;\
+			tf %{1} emote is away: &+g%afkmsg&+L  &+L....&+G(&+gIdle&+L:\
+			&+g%idledays&+Ld&+g%idlehour&+Lh&+g%idlemin&+Lm&+g%idlesec&+Ls \
+			&+L..&+gLogger&+L:&+g%telllogger&+G) Uzi $(/uziver)%;\
+		/endif%;\
+	/endif%;\
 /endif
 
 /def -mregexp -F -p1 -t'^[A-z]+ gossips, \'([^$]*)\'$' tellog3 = \
@@ -133,9 +121,6 @@
 		/set allowbeep=0%;\
 		/repeat -0:01:10 1 /set allowbeep=1%;\
                 tf %{1} beep %{1}%;\
-		/if (pageicq=1) \
-			/quote -S /echo !echo %{1} just beeped you. | mail -s BurningMUD %{icquin}@pager.mirabilis.com%;\
-		/endif%;\
 	/endif
 
 

@@ -15,8 +15,6 @@
         /uzisavevar autoreconnect%;\
         /uzisavevar afkteller%;\
         /uzisavevar afkmsg%;\
-        /uzisavevar pageicq%;\
-        /uzisavevar icquin%;\
         /uzisavevar showtellrows%;\
         /uzisavevar gagprompt%;\
         /uzisavevar uziautosave%;\
