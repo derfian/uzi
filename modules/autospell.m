@@ -1,3 +1,4 @@
+;-*- mode: tf -*-
 ;;;;;;;;;;;;;;;;;;;;;
 ;ReCast on lost conc;
 ;;;;;;;;;;;;;;;;;;;;;
@@ -324,7 +325,7 @@
 ;;Affects;;
 ;;;;;;;;;;;
 
-/def -mregexp -t'------ Affecting Spells ------' reset_affects= \
+/def -F -mregexp -p1 -t'------ Affecting Spells ------' reset_affects= \
 /set spellup=null%;\
 /set focus=0%;\
 /set str=0%;\
@@ -359,38 +360,38 @@
 /set dv=0
 
 ;/def -mglob -t'Mordenkainen\'s Sword    \[*' affmorden=/set morden=1
-/def -mglob -t'Immolation Fire         {\[*|P*}*' affimmof=/set immo=1%;/set immotype=fire
-/def -mglob -t'Immolation Cold         {\[*|P*}*' affimmoc=/set immo=1%;/set immotype=cold
-/def -mglob -t'Aura Of Despair         {\[*|P*}*' affaod=/set aod=1
-/def -mglob -t'Adrenal Focus           {\[*|P*}*' affoc=/set focus=1
-/def -mglob -t'Holy Aura               {\[*|P*}*' afhaura=/set haura=1
-/def -mglob -t'Mana Shield             {\[*|P*}*' afms=/set ms=1
-/def -mglob -t'Ritual Of Pain          {\[*|P*}*' afrit=/set ritual=1
-/def -mglob -t'Mountain Heart          {\[*|P*}*' afmh=/set mh=1
-/def -mglob -t'Life Blood              {\[*|P*}*' aflblood=/set lblood=1
-/def -mglob -t'Combat                  {\[*|P*}*' afcom=/set combat=1
-/def -mglob -t'Strength                {\[*|P*}*' afstr=/set str=1
-/def -mglob -t'Invisibility            {\[*|P*}*' afimp=/set imp=1
-/def -mglob -t'Haste                   {\[*|P*}*' afhas=/set haste=1
-/def -mglob -t'Blur                    {\[*|P*}*' afblu=/set blur=1
-/def -mglob -t'Contingency             Permanent.*' afcont=/set contingency=1
-/def -mglob -t'Armor                   {\[*|P*}*' afarm=/set arm=1
-/def -mglob -t'Darkvision              {\[*|P*}*' afdv=/set dv=1
-/def -mglob -t'Detect Invisibility     {\[*|P*}*' afdet=/set di=1
-/def -mglob -t'Regenerate              {\[*|P*}*' afreg=/set regen=1
-/def -mglob -t'Holy Armor              {\[*|P*}*' afharm=/set harm=1
-/def -mglob -t'Prayer                  {\[*|P*}*' afpra=/set prayer=1
-/def -mglob -t'Force Field             {\[*|P*}*' afffield=/set ffield=1
-/def -mglob -t'Protection              {\[*|P*}*' afprot=/set protection=1
-/def -mglob -t'Bless                   {\[*|P*}*' afble=/set bles=1
-/def -mglob -t'Fly                     {\[*|P*}*' affly=/set fly=1
-/def -mglob -t'Sanctuary               {\[*|P*}*' afsanc=/set sanc=1%;/if (holy<1) /set holy=$[%holy+1]%;/endif
-/def -mglob -t'Blood Mirror            {\[*|P*}*' afbmirr=/set bmirror=1
-/def -mglob -t'Barkskin                {\[*|P*}*' afbark=/set bark=1
-/def -mglob -t'Sun Shield              {\[*|P*}*' afsun=/set sshield=1
-/def -mglob -t'Giant Size              {\[*|P*}*' afgsize=/set gsize=1
-/def -mglob -t'Armor Of Thorns         {\[*|P*}*' afthorns=/set thorns=1
-/def -mglob -t'Mirror Image            {\[*|P*}*' afmirror=/set mirrorimage=1
+/def -F -p100 -mglob -t'Immolation Fire         {\[*|P*}*' affimmof=/set immo=1%;/set immotype=fire
+/def -F -p100 -mglob -t'Immolation Cold         {\[*|P*}*' affimmoc=/set immo=1%;/set immotype=cold
+/def -F -p100 -mglob -t'Aura Of Despair         {\[*|P*}*' affaod=/set aod=1
+/def -F -p100 -mglob -t'Adrenal Focus           {\[*|P*}*' affoc=/set focus=1
+/def -F -p100 -mglob -t'Holy Aura               {\[*|P*}*' afhaura=/set haura=1
+/def -F -p100 -mglob -t'Mana Shield             {\[*|P*}*' afms=/set ms=1
+/def -F -p100 -mglob -t'Ritual Of Pain          {\[*|P*}*' afrit=/set ritual=1
+/def -F -p100 -mglob -t'Mountain Heart          {\[*|P*}*' afmh=/set mh=1
+/def -F -p100 -mglob -t'Life Blood              {\[*|P*}*' aflblood=/set lblood=1
+/def -F -p100 -mglob -t'Combat                  {\[*|P*}*' afcom=/set combat=1
+/def -F -p100 -mglob -t'Strength                {\[*|P*}*' afstr=/set str=1
+/def -F -p100 -mglob -t'Invisibility            {\[*|P*}*' afimp=/set imp=1
+/def -F -p100 -mglob -t'Haste                   {\[*|P*}*' afhas=/set haste=1
+/def -F -p100 -mglob -t'Blur                    {\[*|P*}*' afblu=/set blur=1
+/def -F -p100 -mglob -t'Contingency             Permanent.*' afcont=/set contingency=1
+/def -F -p100 -mglob -t'Armor                   {\[*|P*}*' afarm=/set arm=1
+/def -F -p100 -mglob -t'Darkvision              {\[*|P*}*' afdv=/set dv=1
+/def -F -p100 -mglob -t'Detect Invisibility     {\[*|P*}*' afdet=/set di=1
+/def -F -p100 -mglob -t'Regenerate              {\[*|P*}*' afreg=/set regen=1
+/def -F -p100 -mglob -t'Holy Armor              {\[*|P*}*' afharm=/set harm=1
+/def -F -p100 -mglob -t'Prayer                  {\[*|P*}*' afpra=/set prayer=1
+/def -F -p100 -mglob -t'Force Field             {\[*|P*}*' afffield=/set ffield=1
+/def -F -p100 -mglob -t'Protection              {\[*|P*}*' afprot=/set protection=1
+/def -F -p100 -mglob -t'Bless                   {\[*|P*}*' afble=/set bles=1
+/def -F -p100 -mglob -t'Fly                     {\[*|P*}*' affly=/set fly=1
+/def -F -p100 -mglob -t'Sanctuary               {\[*|P*}*' afsanc=/set sanc=1%;/if (holy<1) /set holy=$[%holy+1]%;/endif
+/def -F -p100 -mglob -t'Blood Mirror            {\[*|P*}*' afbmirr=/set bmirror=1
+/def -F -p100 -mglob -t'Barkskin                {\[*|P*}*' afbark=/set bark=1
+/def -F -p100 -mglob -t'Sun Shield              {\[*|P*}*' afsun=/set sshield=1
+/def -F -p100 -mglob -t'Giant Size              {\[*|P*}*' afgsize=/set gsize=1
+/def -F -p100 -mglob -t'Armor Of Thorns         {\[*|P*}*' afthorns=/set thorns=1
+/def -F -p100 -mglob -t'Mirror Image            {\[*|P*}*' afmirror=/set mirrorimage=1
 
 /def -aBCred -mglob -t'Impossible!  You can\'t concentrate enough!' castonkill = \
   /set castonkill=1%;\
