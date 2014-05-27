@@ -1,3 +1,4 @@
+; -*- mode: tf -*-
 ;;yea..
 
 /set count=0

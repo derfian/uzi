@@ -1,3 +1,4 @@
+; -*- mode: tf -*-
 ;autoassist triggers
 /set groupass=1
 /set assist=1

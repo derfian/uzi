@@ -1,3 +1,4 @@
+; -*- mode: tf -*-
     
 /def -p2147483647 -n1 -mregexp -t'^Saving ([^\.]+).' GettingCharInfo01 = \
   /set char=%{P1}%;\
