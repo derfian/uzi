@@ -2,12 +2,11 @@
        uzi README file
 ===============================================================
 
-  This isn't much for a readme file actually :P
-  If you run into problems, first check http://mud.fobie.net
-  and if you still got problems with something, well mail us,
-  uzi@fobie.net
+  uzi is a TinyFugue 4 script package for BurningMUD. It
+  takes care of more or less everything for you so you don't
+  have to worry. Problems? Report an issue on Github.
 
-  Bugzilla: http://uzi-tf.no-ip.org/
+  http://www.github.com/derfian/uzi/issues
 
   The speedwalk.tf isn't written by anyone of us, it's written
   by Ken Keys(I think;>) , but I changed the speedwalk alittle
