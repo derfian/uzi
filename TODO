@@ -1,3 +1,8 @@
 global:
  - readme file, aswell as help files :P
  - adrenal focus thingie
+ - Change file extensions to .tf so github won't think they're all Matlab files
+ - Make sure everything is indented properly
+ - Ship tf-mode as part of uzi or as a separate git repo
+ - Clean up and bug fixes
+ - Autoassist needs reworking now that it's built into the MUD
